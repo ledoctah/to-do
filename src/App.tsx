@@ -1,13 +1,12 @@
-import { TaskList } from './components/TaskList'
-import { Header } from "./components/Header";
-import './styles/global.scss'
+import './styles/global.scss';
 
+import { ThemeProvider } from './hooks/Theme';
+import { Dashboard } from './pages/Dashboard';
 
-export function App() {
+export const App: React.FC = () => {
   return (
-    <>
-      <Header />
-      <TaskList />
-    </>
-  )
-}
+    <ThemeProvider>
+      <Dashboard />
+    </ThemeProvider>
+  );
+};

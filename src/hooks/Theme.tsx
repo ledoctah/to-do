@@ -15,7 +15,7 @@ export const ThemeProvider: React.FC<IThemeProviderProps> = ({
   children,
 }: IThemeProviderProps) => {
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    let selectedTheme = localStorage.getItem('@mfdev:theme');
+    let selectedTheme = localStorage.getItem('@mfdev:todo:theme');
 
     if (!selectedTheme) {
       selectedTheme = window.matchMedia(`(prefers-color-scheme: dark)`).matches
@@ -27,7 +27,7 @@ export const ThemeProvider: React.FC<IThemeProviderProps> = ({
   });
 
   useEffect(() => {
-    localStorage.setItem('@mfdev:theme', theme);
+    localStorage.setItem('@mfdev:todo:theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

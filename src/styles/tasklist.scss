@@ -50,11 +50,18 @@ section.task-list {
         flex-direction: row;
         align-items: center;
 
+        font-size: 0.9rem;
+
         padding: 14px;
         transition: filter 0.2s;
 
         &:hover {
           filter: brightness(0.95);
+        }
+
+        > svg {
+          margin-right: 4px;
+          stroke-width: 3px;
         }
       }
     }
@@ -62,6 +69,14 @@ section.task-list {
 
   main {
     margin-top: 3rem;
+
+    div.no-tasks {
+      > h3 {
+        color: var(--text-light);
+        font-weight: 500;
+        text-align: center;
+      }
+    }
 
     ul {
       list-style: none;
@@ -98,7 +113,7 @@ section.task-list {
             margin-bottom: 18px;
 
             input {
-              position: absolute;
+               position: absolute;
               opacity: 0;
               cursor: pointer;
               height: 0;
@@ -159,9 +174,26 @@ section.task-list {
   }
 }
 
+section.task-list.unfocused {
+  filter: blur(2px);
+}
+
 @media(max-width: 1120px) {
   section.task-list {
     border-radius: 0;
     margin-bottom: 0;
+  }
+}
+
+@media(max-width: 650px) {
+  section.task-list {
+    header {
+      flex-direction: column;
+
+      h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+    }
   }
 }

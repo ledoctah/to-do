@@ -1,7 +1,10 @@
 import { parseISO } from 'date-fns';
-import React, { useState } from 'react';
+import React, { FormEvent, useCallback, useState } from 'react';
 import { FiCheckSquare, FiChevronDown, FiCalendar, FiX } from 'react-icons/fi';
+import * as yup from 'yup';
+import { string } from 'yup/lib/locale';
 import { useTask } from '../hooks/Task';
+import { useToast } from '../hooks/Toast';
 
 import '../styles/modal.scss';
 
@@ -15,6 +18,7 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
   closeModal,
 }: ITaskModalProps) => {
   const { addTask } = useTask();
+  const { addToast } = useToast();
 
   const [isListOpen, setIsListOpen] = useState(false);
 
@@ -32,7 +36,14 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
     setIsListOpen(!isListOpen);
   }
 
-  function handleAddTask() {
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+
+    const schema = yup.object().shape({
+      title: yup.string().required('O nome da task é obrigatório.'),
+      category: yup.string().required('A categoria é obrigatória.'),
+    });
+
     const task = {
       title: taskName,
       deadline: deadline ? parseISO(deadline) : undefined,
@@ -40,9 +51,19 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
       isImportant,
     };
 
-    addTask(task);
+    schema
+      .validate(task)
+      .then(() => {
+        addTask(task);
 
-    closeModal();
+        closeModal();
+      })
+      .catch(e => {
+        addToast({
+          message: e.message,
+          type: 'error',
+        });
+      });
   }
 
   return (
@@ -51,7 +72,7 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
 
       <h3>Nova tarefa</h3>
 
-      <form id="task-modal">
+      <form id="task-modal" onSubmit={handleSubmit}>
         <div className="item">
           <div>Nome da tarefa</div>
           <input
@@ -119,7 +140,7 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
           <label htmlFor="important">Importante</label>
         </div>
 
-        <button id="addButton" type="button" onClick={handleAddTask}>
+        <button id="addButton" type="submit">
           <FiCheckSquare />
           Adicionar
         </button>

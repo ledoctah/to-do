@@ -101,7 +101,7 @@ export const useTask = (): ITaskContextData => {
   const context = useContext(TaskContext);
 
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useTask must be used within an TaskProvider');
   }
 
   return context;

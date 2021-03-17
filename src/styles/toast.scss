@@ -1,0 +1,41 @@
+.toast-container {
+  position: absolute;
+  max-height: 100vh;
+  top: 0;
+  right: 0;
+  padding: 2rem;
+  overflow: hidden;
+
+  .toast {
+    color: #FFF;
+    padding: 1rem 1.6rem;
+    border-radius: 0.3rem;
+
+    position: relative;
+
+    button {
+      position: absolute;
+      background: none;
+      border: none;
+      top: 0.3rem;
+      right: 0.3rem;
+
+      > svg {
+        color: #FFf;
+        stroke-width: 4px;
+      }
+    }
+
+    &.error {
+      background: #A45A52;
+    }
+
+    &.success {
+      background: #5DBB63;
+    }
+
+    & + .toast {
+      margin-top: 1rem;
+    }
+  }
+}

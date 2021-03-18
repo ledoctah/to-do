@@ -5,6 +5,7 @@ import '../styles/tasklist.scss';
 import { FiTrash, FiPlus } from 'react-icons/fi';
 import { TaskModal } from './TaskModal';
 import { useTask } from '../hooks/Task';
+import { DarkModeSwitcher } from './DarkModeSwitcher';
 
 interface IMappedTask {
   [category: string]: {

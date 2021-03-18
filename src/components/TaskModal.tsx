@@ -1,8 +1,6 @@
-import { parseISO } from 'date-fns';
-import React, { FormEvent, useCallback, useState } from 'react';
-import { FiCheckSquare, FiChevronDown, FiCalendar, FiX } from 'react-icons/fi';
+import React, { FormEvent, useState } from 'react';
+import { FiCheckSquare, FiChevronDown, FiX } from 'react-icons/fi';
 import * as yup from 'yup';
-import { string } from 'yup/lib/locale';
 import { useTask } from '../hooks/Task';
 import { useToast } from '../hooks/Toast';
 
@@ -23,9 +21,7 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
   const [isListOpen, setIsListOpen] = useState(false);
 
   const [taskName, setTaskName] = useState('');
-  const [deadline, setDeadline] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [isImportant, setIsImportant] = useState(false);
 
   function setCategory(category: string) {
     setSelectedCategory(category);
@@ -46,9 +42,7 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
 
     const task = {
       title: taskName,
-      deadline: deadline ? parseISO(deadline) : undefined,
       category: selectedCategory || '',
-      isImportant,
     };
 
     schema
@@ -84,18 +78,6 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
         </div>
 
         <div className="item">
-          <div>Data para concluir</div>
-          <div className="calendar">
-            <input
-              type="datetime-local"
-              onChange={e => setDeadline(e.target.value)}
-              value={deadline}
-            />
-            <FiCalendar />
-          </div>
-        </div>
-
-        <div className="item">
           <div>Categoria</div>
           <div
             className="category"
@@ -127,17 +109,6 @@ export const TaskModal: React.FC<ITaskModalProps> = ({
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="item">
-          <input
-            type="checkbox"
-            name="important"
-            id="important"
-            onChange={e => setIsImportant(e.target.checked)}
-            checked={isImportant}
-          />
-          <label htmlFor="important">Importante</label>
         </div>
 
         <button id="addButton" type="submit">

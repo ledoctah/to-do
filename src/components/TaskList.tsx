@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import '../styles/tasklist.scss';
 
@@ -6,8 +6,39 @@ import { FiTrash, FiPlus } from 'react-icons/fi';
 import { TaskModal } from './TaskModal';
 import { useTask } from '../hooks/Task';
 
+interface IMappedTask {
+  [category: string]: {
+    tasks: Array<{
+      id: string;
+      title: string;
+      category: string;
+      isComplete?: boolean;
+    }>;
+  };
+}
+
 export const TaskList: React.FC = () => {
   const { tasks, toggleTaskCompletion, removeTask } = useTask();
+
+  const [mappedTasks, setMappedTasks] = useState<IMappedTask>(
+    {} as IMappedTask,
+  );
+
+  useEffect(() => {
+    const mapped: IMappedTask = {};
+
+    tasks.forEach(task => {
+      if (!mapped[task.category]) {
+        mapped[task.category] = {
+          tasks: [],
+        };
+      }
+
+      mapped[task.category].tasks.push(task);
+    });
+
+    setMappedTasks(mapped);
+  }, [tasks]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -44,34 +75,39 @@ export const TaskList: React.FC = () => {
         </header>
 
         <main>
-          {tasks.length > 0 ? (
+          {Object.keys(mappedTasks).length > 0 ? (
             <ul>
-              {tasks.map(task => (
-                <li key={task.id}>
-                  <div
-                    className={task.isComplete ? 'completed' : ''}
-                    data-testid="task"
-                  >
-                    <label className="checkbox-container">
-                      <input
-                        type="checkbox"
-                        readOnly
-                        checked={task.isComplete}
-                        onClick={() => handleToggleTaskCompletion(task.id)}
-                      />
-                      <span className="checkmark" />
-                    </label>
-                    <p>{task.title}</p>
-                  </div>
+              {Object.keys(mappedTasks).map(category => (
+                <div className="category-wrapper" key={category}>
+                  <h3>{category}</h3>
+                  {mappedTasks[category].tasks.map(task => (
+                    <li key={task.id}>
+                      <div
+                        className={task.isComplete ? 'completed' : ''}
+                        data-testid="task"
+                      >
+                        <label className="checkbox-container">
+                          <input
+                            type="checkbox"
+                            readOnly
+                            checked={task.isComplete}
+                            onClick={() => handleToggleTaskCompletion(task.id)}
+                          />
+                          <span className="checkmark" />
+                        </label>
+                        <p>{task.title}</p>
+                      </div>
 
-                  <button
-                    type="button"
-                    data-testid="remove-task-button"
-                    onClick={() => handleRemoveTask(task.id)}
-                  >
-                    <FiTrash size={16} />
-                  </button>
-                </li>
+                      <button
+                        type="button"
+                        data-testid="remove-task-button"
+                        onClick={() => handleRemoveTask(task.id)}
+                      >
+                        <FiTrash size={16} />
+                      </button>
+                    </li>
+                  ))}
+                </div>
               ))}
             </ul>
           ) : (

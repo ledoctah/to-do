@@ -4,17 +4,13 @@ import { createContext, useContext, useEffect, useState } from 'react';
 interface ITask {
   id: string;
   title: string;
-  deadline?: Date;
   category: string;
-  isImportant: boolean;
   isComplete: boolean;
 }
 
 interface IRequestTask {
   title: string;
-  deadline?: Date;
   category: string;
-  isImportant: boolean;
 }
 
 interface ITaskContextData {
@@ -45,13 +41,11 @@ export const TaskProvider: React.FC<ITaskProviderProps> = ({
     setTasks(parsedTasks);
   }, []);
 
-  function addTask({ title, deadline, category, isImportant }: IRequestTask) {
+  function addTask({ title, category }: IRequestTask) {
     const task = {
       id: uuid(),
       title,
-      deadline,
       category,
-      isImportant,
       isComplete: false,
     };
 

@@ -10,7 +10,11 @@ export const DarkModeSwitcher: React.FC = () => {
       role="button"
       tabIndex={0}
       onClick={toggleTheme}
-      onKeyDown={toggleTheme}
+      onKeyDown={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          toggleTheme();
+        }
+      }}
     >
       <div className="switcher">
         <div className={theme === 'dark' ? 'ball active' : 'ball'} />

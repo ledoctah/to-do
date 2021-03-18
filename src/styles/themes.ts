@@ -9,6 +9,7 @@ const dark = {
   '--text-title': '#f8f8f2',
   '--text': '#f8f8f2',
   '--text-light': '#f8f8f2',
+  '--theme-active': '#44475A',
 };
 
 const light = {
@@ -22,6 +23,7 @@ const light = {
   '--text-title': '#3D3D4D',
   '--text': '#1C1C29',
   '--text-light': '#A09CB1',
+  '--theme-active': '#EBEBEB',
 };
 
 export default {

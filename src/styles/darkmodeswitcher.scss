@@ -1,4 +1,8 @@
 .dark-mode-switcher {
+  outline-width: 0;
+
+  cursor: pointer;
+
   position: absolute;
   top: 4rem;
   right: 10px;
@@ -8,20 +12,17 @@
 
   .switcher {
     margin-left: auto;
-    outline-width: 0;
 
-    background: #777;
+    background: var(--green);
     width: 45px;
 
     border-radius: 1.2rem;
-
-    cursor: pointer;
 
     .ball {
       height: 20px;
       width: 30px;
       border-radius: 1.2rem;
-      background: #fff;
+      background: var(--theme-active);
       margin: 0;
 
       transition: all 0.2s;
@@ -36,5 +37,11 @@
     color: var(--text-light);
     font-weight: 600;
     margin-left: 0.4rem;
+
+    @media(max-width: 550px) {
+      & {
+        display: none;
+      }
+    }
   }
 }
